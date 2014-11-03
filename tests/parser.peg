@@ -1,0 +1,138 @@
+start=
+    val:action*
+    {
+        return val;
+    }
+
+action=
+    varSet/link
+
+varSet=
+    space*
+    "@"
+    name:token
+    space*
+    "="
+    space*
+    link:link {
+        return {
+            type:'var',
+            name:name,
+            link:link
+        }
+    }
+
+
+link=
+    space*
+    "@"
+    name:token
+    token:linkToken ?
+    args:arguments ?
+    result:link ?
+    ";" ?
+    space*
+    ";" ? {
+        return {
+            type:'link',
+            link:name,
+            token:token,
+            args:args,
+            result:result
+        }
+    }
+
+arguments=
+    space*
+    "("
+    first:argument?
+    other:argument0*
+    ")"
+    space* {
+        if (first!==null) {
+            return [first].concat(other);
+        } else
+            return [];
+    }
+
+argument=
+    space*
+    val:argumentValue
+    space* {
+        return val;
+    }
+
+argument0=
+    ","
+    val:argument {
+        return val;
+    }
+
+argumentValue=
+    string/boolean/number/link
+
+linkToken=
+    space+
+    val:token {
+        return val;
+    }
+
+token=
+    val:[A-z0-9$_]+ {
+        return val.join('');
+    }
+
+number=
+    float/integer
+
+float=
+    int:[0-9]*
+    "."
+    float:[0-9]+ {
+        int=int.join('')
+        if (int.length===0) int='0'
+        float=float.join('')
+        return parseFloat(int+'.'+float)
+    }
+
+integer=
+    val:[0-9]+ {
+        return parseInt(val.join(''))
+    }
+
+boolean=
+    boolTrue/boolFalse
+
+boolTrue=
+    "true" {
+        return true;
+    }
+
+boolFalse=
+    "false" {
+        return false;
+    }
+
+string=
+    string0/string1
+
+string0=
+    '"'
+    data:[^"]*
+    '"' {
+        return data.join('');
+    }
+
+string1=
+    "'"
+    data:[^']*
+    "'" {
+        return data.join('');
+    }
+
+space=
+    " "/
+    [\n]/
+    [\r] &{
+        return true;
+    }

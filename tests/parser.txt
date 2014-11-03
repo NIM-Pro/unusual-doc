@@ -1,0 +1,11 @@
+
+@y = @class YOPTA(
+    @classMethod X(
+        1.25,
+        12
+    ),
+    @method $_P(
+        "axaxa",
+        false
+    )
+) @boolean; @a @string
