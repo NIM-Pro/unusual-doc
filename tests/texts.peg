@@ -1,0 +1,23 @@
+start=
+    text*
+
+text=
+    space*
+    "<$"
+    name:[A-z0-9$_]+
+    ">"
+    text:[^<]*
+    "</>"
+    space* {
+        return {
+            name:name.join(''),
+            text:text.join('')
+        }
+    }
+
+space=
+    " "/
+    [\n]/
+    [\r] &{
+        return true;
+    }

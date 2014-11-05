@@ -1,9 +1,15 @@
-var UnusualDoc=require('../unusual-doc');
-var Texts=require('./gendoc.texts.js');
+var UnusualDoc=require('..');
+var TextsParse=require('./texts-parse.js');
+var fs=require('fs');
+var Texts=TextsParse(fs.readFileSync('./gendoc.texts.md','utf-8'));
 
 var u=new UnusualDoc({
     blockBeginning:'/**',
     blockEnding:'**/',
+});
+
+u.registerLink('array',function(token) {
+    return 'array of '+token;
 });
 
 u.registerLink('type',function(token) {
@@ -11,7 +17,7 @@ u.registerLink('type',function(token) {
 });
 
 var metaToString=function() {
-    return Texts[this.name];;
+    return Texts[this.name];
 };
 
 u.registerLink('meta',function(token) {
@@ -21,11 +27,11 @@ u.registerLink('meta',function(token) {
     };
 });
 
-var functionToString=function(className) {
-    var res='### function';
+var functionToString=function() {
+    var res='function';
     if (this.name!==null) {
-        if (!!className)
-            res+=' '+className+'.'+this.name;
+        if (!!this.className)
+            res+=' '+this.className+'.'+this.name;
         else
             res+=' '+this.name;
     };
@@ -47,7 +53,7 @@ var functionLink=u.registerLink('function',function(token,args,result) {
 });
 
 var classToString=function() {
-    var res='### class';
+    var res='class';
     if (this.name!==null) res+=' '+this.name;
     if (this.constructor.args!==null)
         res+='('+this.constructor.args.join(',')+')';
@@ -66,15 +72,21 @@ u.registerLink('class',function(token,args,result) {
 
 u.registerLink('method',function(token,args,result) {
     var Class=args.splice(0,1)[0];
-    Class.methods.push(functionLink(token,args,result));
-    return null;
+    var f=functionLink(token,args,result);
+    f.className=Class.name+'.prototype';
+    Class.methods.push(f);
+    return f;
 });
 
-u.parseFile('../unusual-doc/unusual-doc.js').then(function(data) {
+u.parseFile('../unusual-doc.js').then(function(data) {
     data.filter(function(e) {
         return e!==null;
     }).forEach(function(d) {
-        console.log(d.toString());
+        var t=d.toString()
+        if (!!d.type)
+            if (d.type==='class'||d.type==='function')
+                t='#### '+t;
+        console.log(t);
     });
 }).catch(function(e) {
     if (!!e.stack) console.log(e.stack);

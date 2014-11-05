@@ -28,6 +28,13 @@ function UnusualDoc(params) {
 
 UnusualDoc.prototype.defaultFn=function(){return null};
 
+/**
+    @method registerLink(@d,@type string,@function(@type string,@array link,@type link) @type anything);
+    @meta registerLink;
+    @method registerLink(@d,@function(@type string,@type string,@array link,@type link) @type anything);
+    @meta registerDefaultLink;
+**/
+
 UnusualDoc.prototype.registerLink=function(name,fn) {
     if (arguments.length>1)
         return this.links[name]=fn;
@@ -86,6 +93,11 @@ UnusualDoc.prototype._executeResults=function(object,env) {
     };
 };
 
+/**
+    @method parse(@d,@type string);
+    @meta parse;
+**/
+
 UnusualDoc.prototype.parse=function(code,env) {
     return new Promise(function(ok,err) {
         code=(code||'').toString();
@@ -119,6 +131,11 @@ UnusualDoc.prototype.parse=function(code,env) {
         err(new Error(msg));
     }.bind(this));
 };
+
+/**
+    @method parseFile(@d,@type string);
+    @meta parseFile;
+**/
 
 UnusualDoc.prototype.parseFile=function(path) {
     return readFile(path,this.params.fileEncoding).then(function(data) {

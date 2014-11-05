@@ -1,0 +1,4 @@
+*.db
+*.sublime*
+node_modules
+tests
