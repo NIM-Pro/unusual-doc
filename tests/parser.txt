@@ -1,11 +1,7 @@
+/*---
+@foo=@class Foo(@type string);
 
-@y = @class YOPTA(
-    @classMethod X(
-        1.25,
-        12
-    ),
-    @method $_P(
-        "axaxa",
-        false
-    )
-) @boolean; @a @string
+@classMethod Bar(@foo,@type string) @type array;
+
+@method bar(@foo,@type integer) @type array;
+*/

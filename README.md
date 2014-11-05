@@ -244,3 +244,34 @@ u.parseFile(filename).then(function(data) {
     else console.log(e);
 });
 ```
+
+## Third. See result.
+```json
+{
+    "type":"class",
+    "name":"Foo",
+    "constructor":{
+        "type":"function",
+        "name":null,
+        "args":["string"],
+        "result":null
+    },
+    "classMethods":[
+        {
+            "type":"function",
+            "name":"Bar",
+            "args":["string"],
+            "result":"array"
+        }
+    ],
+    "instanceMethods":[
+        {
+            "type":"function",
+            "name":"bar",
+            "args":["integer"],
+            "result":"array"
+        }
+    ]
+}
+
+```
