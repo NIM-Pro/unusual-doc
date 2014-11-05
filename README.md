@@ -2,6 +2,8 @@
 
 **This** is really unusual tool for documentation generating.
 
+[![NPM](https://nodei.co/npm/unusual-doc.png?compact=true)](https://nodei.co/npm/unusual-doc/)
+
 **Why?** You will understand in the example.
 
 ## First. Write the comments in your code.
