@@ -1,0 +1,4 @@
+/*---
+    @type string;
+    @complexType array @complexType array @type string;
+*/

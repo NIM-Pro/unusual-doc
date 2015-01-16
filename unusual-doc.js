@@ -26,6 +26,8 @@ function UnusualDoc(params) {
             this.params[i]=_defaultParams[i];
 };
 
+UnusualDoc.presets=require('./presets.js');
+
 UnusualDoc.prototype.defaultFn=function(){return null};
 
 /**
